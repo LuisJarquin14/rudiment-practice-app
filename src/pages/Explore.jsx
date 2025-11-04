@@ -11,8 +11,11 @@ export default function Explore() {
   const [category, setCategory] = useState('');
 
   const filtered = useMemo(() => {
-    let list = RUDIMENTS.filter((r) => r.level === level);
-    if (category) list = list.filter((r) => r.category === category);
+    // If a category is selected we show all rudiments from that category
+    // regardless of the currently selected level. If no category is selected
+    // we filter by the selected level as before.
+    let list = category ? RUDIMENTS.filter((r) => r.category === category)
+                        : RUDIMENTS.filter((r) => r.level === level);
     if (!q.trim()) return list;
     const query = q.toLowerCase();
     return list.filter((r) =>
