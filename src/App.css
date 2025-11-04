@@ -1,6 +1,9 @@
 :root{
+  /* Dark theme (default) */
   --bg-0: #0b1220;
   --bg-1: #0f1724;
+  /* single background color used for page background to avoid visible bands */
+  --bg: #0f1724;
   --card: rgba(255,255,255,0.03);
   --glass: rgba(255,255,255,0.04);
   --muted: #a8b3c2;
@@ -11,11 +14,29 @@
   --shadow: rgba(2,6,23,0.6);
 }
 
+/* Light theme overrides when applied to the root element (html.theme-light) */
+.theme-light {
+  --bg-0: #f7fafc;
+  --bg-1: #eef2f7;
+  --bg: #eef2f7; /* single flat background for light theme */
+  --card: rgba(2,6,23,0.03);
+  --glass: rgba(2,6,23,0.02);
+  --muted: #556069;
+  --text: #0b1220;
+  --accent: #0ea5e9;
+  --accent-2: #38bdf8;
+  --positive: #16a34a;
+  --shadow: rgba(2,6,23,0.06);
+}
+
 *{box-sizing:border-box}
 html,body,#root{height:100%}
 body{
   margin:0;
-  background:linear-gradient(180deg,var(--bg-0) 0%, var(--bg-1) 100%);
+  /* Use CSS variables so theme can switch by changing the root class */
+  /* Use a single solid background color to avoid visible horizontal banding */
+  background-color: var(--bg);
+  background-image: none;
   color:var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing:antialiased;
@@ -27,6 +48,7 @@ body{
 a{color:inherit;text-decoration:none}
 
 .container{max-width:1080px;margin:0 auto;padding:20px}
+/* Make container padding a bit smaller on narrow screens via media queries below */
 
 /* Header */
 .App-header{position:-webkit-sticky;position:sticky;top:0;z-index:30;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));-webkit-backdrop-filter: blur(6px);backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
@@ -70,7 +92,9 @@ a{color:inherit;text-decoration:none}
 .rudiment-img {
   width: 100%;
   max-width: 220px;
-  height: 140px;
+  /* Use aspect-ratio to keep consistent image boxes and avoid variable heights */
+  aspect-ratio: 16 / 9;
+  height: auto;
   object-fit: contain;
   border-radius: 10px;
   background: #191a1d;
@@ -78,6 +102,12 @@ a{color:inherit;text-decoration:none}
   border: 1px solid rgba(255,255,255,0.04);
   transition: transform 0.18s;
 }
+
+/* Fallback for browsers that don't support aspect-ratio (older iOS Safari):
+   Use intrinsic ratio via padding on the wrapper and absolutely position the image. */
+.rudiment-img-wrap{position:relative}
+.rudiment-img-wrap::before{content:"";display:block;padding-top:56.25% /* 16:9 */;}
+.rudiment-img{position:absolute;top:0;left:0;width:100%;height:100%;}
 .rudiment-img-detail-wrap {
   width: 100%;
   display: flex;
@@ -96,9 +126,10 @@ a{color:inherit;text-decoration:none}
   border: 1px solid rgba(255,255,255,0.06);
 }
 
-body {
-  background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
-}
+.chip.done{background:transparent;border-color:rgba(126,231,135,0.08);color:var(--positive)}
+
+/* Ensure no other hard overrides interfere. If the html element has .theme-dark explicitly, it's same as default. */
+/* explicit dark class not required; default variables are dark */
 .chip.done{background:transparent;border-color:rgba(126,231,135,0.08);color:var(--positive)}
 
 /* Sticking Viewer */
@@ -121,6 +152,51 @@ body {
 .panel{background:transparent;border:1px solid rgba(255,255,255,0.03);border-radius:12px;margin-top:16px}
 .panel-title{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.02);font-weight:600}
 .panel-body{padding:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+/* Responsive rules - tablet and mobile */
+@media (max-width: 1024px) {
+  .container{padding:16px;}
+  .header-inner{padding:10px 16px}
+  .brand{font-size:16px}
+  .grid{gap:14px}
+  .card{padding:12px}
+  .rudiment-img{max-width:200px;height:120px}
+}
+
+@media (max-width: 768px) {
+  /* Header stacks on small screens */
+  .header-inner{flex-direction:column;align-items:flex-start;gap:8px}
+  .nav{width:100%;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+  .nav a, .icon-btn{padding:8px 10px}
+  .container{padding:14px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .card{padding:12px}
+  .brand .subtitle{display:none}
+
+  /* Make the toolbar horizontally scrollable on narrow widths to avoid overflow */
+  .toolbar{overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%;}
+  .toolbar::-webkit-scrollbar{height:8px}
+  .toolbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.04);border-radius:8px}
+  .level-tabs{display:flex;gap:8px;flex-wrap:nowrap;min-width:0}
+  .tab{white-space:nowrap}
+}
+
+@media (max-width: 480px) {
+  .container{padding:12px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .card{padding:10px}
+  .card-title{font-size:15px}
+  .card-desc{font-size:12px}
+  /* Reduce image vertical footprint on very small screens to avoid long empty blocks */
+  .rudiment-img{max-width:180px;height:auto;max-height:90px;object-fit:contain}
+  /* Remove the intrinsic-ratio pseudo element on mobile so wrappers don't reserve large vertical space */
+  .rudiment-img-wrap::before{display:none}
+  .rudiment-img{position:static;width:auto}
+  .search{min-width:120px}
+  .brand{font-size:15px}
+  body{font-size:14px}
+  .App-header{padding-bottom:6px}
+}
 
 .metronome input[type="range"]{width:220px}
 .bpm{display:inline-block;min-width:40px;text-align:center;background:transparent;border:1px solid rgba(255,255,255,0.04);border-radius:8px;padding:4px 8px;margin-left:10px}
