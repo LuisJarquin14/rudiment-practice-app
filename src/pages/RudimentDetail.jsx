@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getRudimentBySlug } from '../data/rudiments';
-import StickingViewer from '../components/StickingViewer';
 
 function useLocalProgress() {
   const [progress, setProgress] = useState(() => {
@@ -144,6 +143,7 @@ export default function RudimentDetail() {
 
   const completed = !!progress[rudiment.slug];
 
+
   return (
     <div className="detail">
       <Link to="/" className="back">← Volver</Link>
@@ -151,9 +151,13 @@ export default function RudimentDetail() {
       <div className="tag">Nivel: {rudiment.level}</div>
       <p className="desc">{rudiment.description}</p>
 
-      <div className="sticking">
-        <div className="sticking-title">Sticking</div>
-        <div className="sticking-body"><StickingViewer sticking={rudiment.sticking} /></div>
+      <div className="rudiment-img-detail-wrap">
+        <img
+          src={rudiment.image ? `/40-rudiments/${rudiment.image}` : ''}
+          alt={rudiment.name}
+          className="rudiment-img-detail"
+          loading="lazy"
+        />
       </div>
 
       <div className="panel">

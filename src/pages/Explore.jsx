@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { LEVELS, RUDIMENTS, CATEGORIES } from '../data/rudiments';
 import { useProgress } from '../hooks/useProgress';
 import { useFavorites } from '../hooks/useFavorites';
-import StickingViewer from '../components/StickingViewer';
+
 
 export default function Explore() {
   const [level, setLevel] = useState('basic');
@@ -72,7 +72,14 @@ export default function Explore() {
                 onClick={() => toggleFavorite(r.slug)}
               >★</button>
             </div>
-            <div className="card-sub"><StickingViewer sticking={r.sticking} /></div>
+            <div className="rudiment-img-wrap">
+              <img
+                src={r.image ? `/40-rudiments/${r.image}` : ''}
+                alt={r.name}
+                className="rudiment-img"
+                loading="lazy"
+              />
+            </div>
             <div className="card-desc">{r.description}</div>
             <div className="card-actions">
               {progress[r.slug] ? (
@@ -96,7 +103,14 @@ export default function Explore() {
                 {RUDIMENTS.filter(r => r.category === c.id).map(r => (
                   <Link key={r.slug} to={`/rudiment/${r.slug}`} className="card">
                     <div className="card-title">{r.name}</div>
-                    <div className="card-sub"><StickingViewer sticking={r.sticking} /></div>
+                    <div className="rudiment-img-wrap">
+                      <img
+                        src={r.image ? `/40-rudiments/${r.image}` : ''}
+                        alt={r.name}
+                        className="rudiment-img"
+                        loading="lazy"
+                      />
+                    </div>
                   </Link>
                 ))}
               </div>
