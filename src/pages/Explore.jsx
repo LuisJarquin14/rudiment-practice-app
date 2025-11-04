@@ -73,12 +73,15 @@ export default function Explore() {
               >★</button>
             </div>
             <div className="rudiment-img-wrap">
-              <img
-                src={r.image ? `/40-rudiments/${r.image}` : ''}
-                alt={r.name}
-                className="rudiment-img"
-                loading="lazy"
-              />
+              {r.image ? (
+                <img
+                  src={`/40-rudiments/${r.image}`}
+                  alt={r.name}
+                  className="rudiment-img"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+              ) : null}
             </div>
             <div className="card-desc">{r.description}</div>
             <div className="card-actions">
@@ -104,12 +107,15 @@ export default function Explore() {
                   <Link key={r.slug} to={`/rudiment/${r.slug}`} className="card">
                     <div className="card-title">{r.name}</div>
                     <div className="rudiment-img-wrap">
-                      <img
-                        src={r.image ? `/40-rudiments/${r.image}` : ''}
-                        alt={r.name}
-                        className="rudiment-img"
-                        loading="lazy"
-                      />
+                      {r.image ? (
+                        <img
+                          src={`/40-rudiments/${r.image}`}
+                          alt={r.name}
+                          className="rudiment-img"
+                          loading="lazy"
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      ) : null}
                     </div>
                   </Link>
                 ))}
