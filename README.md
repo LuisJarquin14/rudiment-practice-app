@@ -2,6 +2,28 @@
 
 Una aplicación web para estudiantes de percusión marching en Panamá, enfocada en la práctica de rudimentos básicos, intermedios y avanzados.
 
+## Despliegue en Vercel
+
+Instrucciones rápidas para desplegar la aplicación en Vercel:
+
+1. Conecta el repositorio a Vercel (https://vercel.com) y selecciona la rama `develop` o `main` según prefieras.
+2. Vercel detectará un proyecto estático y ejecutará `npm run build` por defecto. El `vercel.json` incluido fuerza que todas las rutas sean reescritas a `index.html`, necesario para aplicaciones SPA usando `BrowserRouter`.
+3. Si prefieres usar la CLI:
+
+```bash
+# instalar la CLI si no la tienes
+npm i -g vercel
+vercel login
+# desde la carpeta del proyecto
+vercel --prod
+```
+
+Notas:
+- El build output se encuentra en `build/` (configurado por Create React App y por `vercel.json`).
+- Si quieres que las rutas se sirvan correctamente al recargar una URL (p. ej. `/rudiment/some-slug`), el `vercel.json` proporciona la regla de reescritura.
+
+Si quieres que haga el despliegue por ti (ejecutando `npm ci` y `npm run build` en mi entorno) dímelo y lo hago. También puedo añadir un workflow de GitHub Actions si prefieres despliegues automáticos.
+
 ## Características
 
 - **Niveles de Dificultad**: Básico, Intermedio y Avanzado
