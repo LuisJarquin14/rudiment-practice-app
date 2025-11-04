@@ -5,10 +5,12 @@ Una aplicación web para estudiantes de percusión marching en Panamá, enfocada
 ## Características
 
 - **Niveles de Dificultad**: Básico, Intermedio y Avanzado
-- **Metrónomo Personalizado**: Ajustable de 40 a 200 BPM usando Web Audio API
+- **Explorar + Detalle**: Ruteo con páginas para explorar y practicar cada rudimento
+- **Metrónomo Mejorado**: 40–220 BPM, Tap Tempo, acento configurable y feedback visual
 - **Lista de Rudimentos**: Basada en los estándares de la Percussive Arts Society (PAS)
-- **Tracking de Progreso**: Guarda el progreso localmente usando localStorage
-- **Interfaz Intuitiva**: Diseño responsivo y fácil de usar
+- **Sticking Viewer**: Visualiza R/L, acentos y notas de gracia de forma clara
+- **Favoritos + Progreso**: Guarda progreso y favoritos localmente (localStorage)
+- **UI Moderna**: Diseño responsivo, rápido y accesible
 
 ## Rudimentos Incluidos
 
@@ -64,10 +66,10 @@ Una aplicación web para estudiantes de percusión marching en Panamá, enfocada
 
 ## Uso
 
-1. Selecciona tu nivel de dificultad.
-2. Ajusta el BPM del metrónomo.
-3. Haz clic en un rudimento para ver detalles y practicar.
-4. Marca como completado cuando domines el rudimento.
+1. En "Explorar", elige nivel (Básico/Intermedio/Avanzado) y busca.
+2. Abre un rudimento para ver su detalle, sticking y metrónomo.
+3. Ajusta BPM, acentos o usa Tap Tempo. Marca como completado.
+4. Guarda favoritos para acceso rápido desde la lista de Explore.
 
 ## Contribución
 
