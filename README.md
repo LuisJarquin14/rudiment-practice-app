@@ -11,7 +11,7 @@ Instrucciones rápidas para desplegar la aplicación en Vercel:
 3. Si prefieres usar la CLI:
 
 ```bash
-# instalar la CLI si no la tienes
+# instalar la CLI si no la tienes 
 npm i -g vercel
 vercel login
 # desde la carpeta del proyecto
