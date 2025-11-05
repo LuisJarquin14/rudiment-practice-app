@@ -12,6 +12,15 @@
   --accent-2: #7dd3fc;
   --positive: #7ee787;
   --shadow: rgba(2,6,23,0.6);
+  /* Theme-aware helpers for borders/overlays so light theme can invert colors
+     without changing many rules across the file. */
+  --border: rgba(255,255,255,0.03);
+  --border-2: rgba(255,255,255,0.04);
+  --border-3: rgba(255,255,255,0.06);
+  --header-overlay: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --element-bg: rgba(0,0,0,0.08);
+  --thumb-bg: rgba(255,255,255,0.04);
+  --focus-ring: rgba(102,217,255,0.18);
 }
 
 /* Light theme overrides when applied to the root element (html.theme-light) */
@@ -27,6 +36,14 @@
   --accent-2: #38bdf8;
   --positive: #16a34a;
   --shadow: rgba(2,6,23,0.06);
+  /* Invert the helper vars for light theme so UI elements remain visible */
+  --border: rgba(2,6,23,0.03);
+  --border-2: rgba(2,6,23,0.04);
+  --border-3: rgba(2,6,23,0.06);
+  --header-overlay: linear-gradient(180deg, rgba(2,6,23,0.02), rgba(2,6,23,0.01));
+  --element-bg: rgba(255,255,255,0.06);
+  --thumb-bg: rgba(2,6,23,0.04);
+  --focus-ring: rgba(14,165,233,0.18);
 }
 
 *{box-sizing:border-box}
@@ -51,34 +68,38 @@ a{color:inherit;text-decoration:none}
 /* Make container padding a bit smaller on narrow screens via media queries below */
 
 /* Header */
-.App-header{position:-webkit-sticky;position:sticky;top:0;z-index:30;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));-webkit-backdrop-filter: blur(6px);backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+.App-header{position:-webkit-sticky;position:sticky;top:0;z-index:30;background:var(--header-overlay);-webkit-backdrop-filter: blur(6px);backdrop-filter: blur(6px);border-bottom:1px solid var(--border)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
 .brand{font-weight:700;letter-spacing:0.4px;color:var(--accent);font-size:18px}
 .brand .subtitle{display:block;font-size:12px;color:var(--muted);font-weight:500}
 .nav{display:flex;gap:10px}
 .nav a{padding:8px 12px;border-radius:10px;color:var(--muted);border:1px solid transparent}
-.nav a.active{background:transparent;border-color:rgba(255,255,255,0.04);color:var(--text)}
+.nav a.active{background:transparent;border-color:var(--border-2);color:var(--text)}
 
-.footer{border-top:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:18px 0;margin-top:48px;text-align:center}
+.footer{border-top:1px solid var(--border);color:var(--muted);padding:18px 0;margin-top:48px;text-align:center}
 
 /* Toolbar */
 .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0 20px}
 .level-tabs{display:flex;gap:8px}
-.tab{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;cursor:pointer;transition:all .15s}
-.tab.active{color:var(--text);border-color:rgba(109,122,138,0.12);background:rgba(255,255,255,0.02)}
-.search{flex:1;min-width:220px;background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px}
+.tab{background:transparent;color:var(--muted);border:1px solid var(--border);padding:8px 12px;border-radius:999px;cursor:pointer;transition:all .15s}
+.tab.active{color:var(--text);border-color:rgba(109,122,138,0.12);background:var(--glass)}
+.tab{transition: background-color .12s,color .12s,border-color .12s,transform .12s}
+.tab:hover{background:var(--glass);border-color:var(--border-2);color:var(--text);transform:translateY(-2px)}
+.search{flex:1;min-width:220px;background:transparent;color:var(--text);border:1px solid var(--border-2);border-radius:10px;padding:10px 12px}
 
 /* Grid & Cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-.card{background:var(--card);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px var(--shadow);transition:transform .18s, box-shadow .18s}
+.card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);box-shadow:0 6px 18px var(--shadow);transition:transform .18s, box-shadow .18s}
 .card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(2,6,23,0.7)}
 .card-title{font-weight:700;margin-bottom:8px;font-size:16px}
 .card-sub{color:var(--accent-2);font-weight:600;margin-bottom:8px}
 .card-desc{color:var(--muted);font-size:13px}
 .card-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);border-radius:8px;padding:6px 8px;cursor:pointer}
+.icon-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 8px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s}
+.icon-btn:hover{background:var(--glass);border-color:var(--border-2);color:var(--text);transform:translateY(-2px)}
 .icon-btn.on{color:#ffd166;border-color:rgba(255,209,102,0.12);background:linear-gradient(180deg,rgba(255,209,102,0.03),transparent)}
-.chip{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;cursor:pointer}
+.chip{background:transparent;color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:999px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s}
+.chip:hover{background:var(--glass);border-color:var(--border-2);color:var(--text);transform:translateY(-2px)}
 .chip.link{display:inline-block}
 
 /* Rudiment Images */
@@ -99,7 +120,7 @@ a{color:inherit;text-decoration:none}
   border-radius: 10px;
   background: #191a1d;
   box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid var(--border-2);
   transition: transform 0.18s;
 }
 
@@ -123,7 +144,7 @@ a{color:inherit;text-decoration:none}
   border-radius: 16px;
   background: #191a1d;
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--border-3);
 }
 
 .chip.done{background:transparent;border-color:rgba(126,231,135,0.08);color:var(--positive)}
@@ -134,7 +155,7 @@ a{color:inherit;text-decoration:none}
 
 /* Sticking Viewer */
 .sticking-viewer{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.stick{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:8px;padding:0 8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.08);font-weight:700}
+.stick{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:8px;padding:0 8px;border:1px solid var(--border);background:var(--element-bg);font-weight:700}
 .stick.right{color:var(--accent-2);background:linear-gradient(180deg, rgba(122,209,255,0.03), rgba(122,209,255,0.01))}
 .stick.left{color:#ffb4c0;background:linear-gradient(180deg, rgba(255,180,192,0.02), rgba(255,180,192,0.01))}
 .stick.accent{box-shadow:0 0 0 4px rgba(102,217,255,0.06)}
@@ -143,14 +164,14 @@ a{color:inherit;text-decoration:none}
 /* Detail */
 .detail .back{color:var(--muted);display:inline-block;margin:4px 0 8px}
 .title{margin:6px 0;font-size:20px}
-.tag{display:inline-block;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03);padding:6px 12px;border-radius:999px;margin-bottom:14px}
+.tag{display:inline-block;background:transparent;color:var(--muted);border:1px solid var(--border);padding:6px 12px;border-radius:999px;margin-bottom:14px}
 .desc{color:var(--muted);margin-bottom:12px}
 .sticking{background:transparent;border-radius:10px;padding:12px;margin:16px 0}
 .sticking-title{color:var(--muted);font-size:13px;margin-bottom:8px}
 .sticking-body{font-size:18px;letter-spacing:1px}
 
-.panel{background:transparent;border:1px solid rgba(255,255,255,0.03);border-radius:12px;margin-top:16px}
-.panel-title{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.02);font-weight:600}
+.panel{background:transparent;border:1px solid var(--border);border-radius:12px;margin-top:16px}
+.panel-title{padding:10px 12px;border-bottom:1px solid var(--border-2);font-weight:600}
 .panel-body{padding:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 
 /* Responsive rules - tablet and mobile */
@@ -176,7 +197,7 @@ a{color:inherit;text-decoration:none}
   /* Make the toolbar horizontally scrollable on narrow widths to avoid overflow */
   .toolbar{overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%;}
   .toolbar::-webkit-scrollbar{height:8px}
-  .toolbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.04);border-radius:8px}
+  .toolbar::-webkit-scrollbar-thumb{background:var(--thumb-bg);border-radius:8px}
   .level-tabs{display:flex;gap:8px;flex-wrap:nowrap;min-width:0}
   .tab{white-space:nowrap}
 }
@@ -199,12 +220,43 @@ a{color:inherit;text-decoration:none}
 }
 
 .metronome input[type="range"]{width:220px}
-.bpm{display:inline-block;min-width:40px;text-align:center;background:transparent;border:1px solid rgba(255,255,255,0.04);border-radius:8px;padding:4px 8px;margin-left:10px}
-.beat{width:14px;height:14px;border-radius:999px;background:rgba(255,255,255,0.03)}
+.bpm{display:inline-block;min-width:40px;text-align:center;background:transparent;border:1px solid var(--border-2);border-radius:8px;padding:4px 8px;margin-left:10px}
+.beat{width:14px;height:14px;border-radius:999px;background:var(--border)}
 .beat.accent{background:var(--accent);box-shadow:0 0 0 8px rgba(102,217,255,0.06);transition:box-shadow 100ms}
 
-.btn{background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);color:var(--text);border:1px solid rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;cursor:pointer}
-.btn:hover{transform:translateY(-2px)}
+.btn{background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);color:var(--text);border:1px solid var(--border);padding:10px 14px;border-radius:10px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);background:var(--glass);border-color:var(--border-2);box-shadow:0 10px 24px rgba(2,6,23,0.08)}
 .btn-disabled{opacity:0.6;cursor:not-allowed}
 
 .actions{margin-top:16px}
+
+/* Skeleton loading UI */
+.skeleton-card{position:relative;background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);border:1px solid var(--border);box-shadow:0 4px 18px rgba(2,6,23,0.04);padding:14px;border-radius:12px}
+.skeleton-img{width:100%;max-width:220px;border-radius:8px;background:linear-gradient(90deg,var(--card),var(--glass));position:relative;overflow:hidden}
+.skeleton-img.compact{max-width:180px}
+.skeleton-line{height:12px;background:linear-gradient(90deg,var(--card),var(--glass));border-radius:8px;margin-bottom:8px}
+.skeleton-line.title{height:18px;margin-bottom:6px}
+.skeleton-chip{background:linear-gradient(90deg,var(--card),var(--glass));border-radius:8px;display:inline-block}
+.skeleton-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(90deg,var(--card),var(--glass))}
+
+/* shimmer animation */
+@keyframes shimmer{
+  0%{background-position:-150% 0}
+  100%{background-position:150% 0}
+}
+.skeleton-card::after, .skeleton-img::after, .skeleton-line::after, .skeleton-chip::after, .skeleton-circle::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;right:0;pointer-events:none;
+  background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
+  background-repeat:no-repeat;background-size:200% 100%;background-position:-150% 0;mix-blend-mode:overlay;animation:shimmer 1.4s linear infinite;
+}
+
+/* Ensure shimmer is subtle on light theme */
+.theme-light .skeleton-card::after, .theme-light .skeleton-img::after, .theme-light .skeleton-line::after, .theme-light .skeleton-chip::after, .theme-light .skeleton-circle::after{
+  background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* Focus styles for accessibility */
+.tab:focus-visible, .icon-btn:focus-visible, .chip:focus-visible, .btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
