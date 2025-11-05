@@ -1,22 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function useProgress() {
-  const [progress, setProgress] = useState(() => {
-    try {
-      const v = localStorage.getItem('rudimentProgress');
-      return v ? JSON.parse(v) : {};
-    } catch {
-      return {};
-    }
-  });
-  useEffect(() => {
-    localStorage.setItem('rudimentProgress', JSON.stringify(progress));
-  }, [progress]);
-  const markCompleted = (slug) => setProgress((p) => ({ ...p, [slug]: true }));
-  const unmark = (slug) => setProgress((p) => {
-    const n = { ...p };
-    delete n[slug];
-    return n;
-  });
-  return { progress, markCompleted, unmark };
+  // Single-session study mode: progress/completion tracking removed.
+  // Keep a stable API that returns an empty progress object for compatibility.
+  const [progress] = useState({});
+  return { progress };
 }

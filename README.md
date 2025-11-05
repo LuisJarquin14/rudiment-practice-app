@@ -31,7 +31,8 @@ Si quieres que haga el despliegue por ti (ejecutando `npm ci` y `npm run build` 
 - **Metrónomo Mejorado**: 40–220 BPM, Tap Tempo, acento configurable y feedback visual
 - **Lista de Rudimentos**: Basada en los estándares de la Percussive Arts Society (PAS)
 - **Sticking Viewer**: Visualiza R/L, acentos y notas de gracia de forma clara
-- **Favoritos + Progreso**: Guarda progreso y favoritos localmente (localStorage)
+- **Consejos (Tips)**: Nueva sección con recomendaciones de técnica, postura y rutinas de práctica
+- **Tema**: El tema (claro/oscuro) sí se guarda en `localStorage`.
 - **UI Moderna**: Diseño responsivo, rápido y accesible
 
 ## Rudimentos Incluidos
@@ -64,7 +65,7 @@ Si quieres que haga el despliegue por ti (ejecutando `npm ci` y `npm run build` 
 - **Frontend**: React.js
 - **Audio**: Web Audio API para el metrónomo
 - **Estilos**: CSS puro
-- **Almacenamiento**: localStorage para progreso
+- **Almacenamiento**: El tema de la UI (claro/oscuro) se guarda en `localStorage`. Favoritos y progreso funcionan en memoria (single-session) por diseño: se mantienen mientras la pestaña está abierta pero no se sincronizan ni persisten automáticamente entre dispositivos. Existe un plan de export/import para respaldos manuales.
 
 ## Instalación
 
@@ -90,8 +91,8 @@ Si quieres que haga el despliegue por ti (ejecutando `npm ci` y `npm run build` 
 
 1. En "Explorar", elige nivel (Básico/Intermedio/Avanzado) y busca.
 2. Abre un rudimento para ver su detalle, sticking y metrónomo.
-3. Ajusta BPM, acentos o usa Tap Tempo. Marca como completado.
-4. Guarda favoritos para acceso rápido desde la lista de Explore.
+3. Ajusta BPM, acentos o usa Tap Tempo durante tu práctica.
+4. Ten en cuenta que estos marcadores y el progreso se almacenan en memoria y no se guardan entre sesiones. Puedes visitar la página "Consejos" para ver recomendaciones y rutinas de práctica.
 
 ## Contribución
 
