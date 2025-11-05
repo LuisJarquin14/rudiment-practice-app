@@ -2,11 +2,9 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SkeletonCard from '../components/SkeletonCard';
 import { LEVELS, RUDIMENTS, CATEGORIES } from '../data/rudiments';
-import { useProgress } from '../hooks/useProgress';
-import { useFavorites } from '../hooks/useFavorites';
 
 
-export default function Explore() {
+export default function Rudimentos() {
   const [level, setLevel] = useState('basic');
   const [q, setQ] = useState('');
   const [category, setCategory] = useState('');
@@ -43,8 +41,7 @@ export default function Explore() {
     return () => clearTimeout(t);
   }, [q, level, category]);
 
-  const { progress, markCompleted, unmark } = useProgress();
-  const { favorites, toggleFavorite } = useFavorites();
+  // progress tracking removed (single-session study mode without completion marks)
 
   return (
     <div>
@@ -80,7 +77,7 @@ export default function Explore() {
           onChange={(e) => setQ(e.target.value)}
           className="search"
         />
-        <Link to="/favorites" className="chip link">★ Favoritos</Link>
+        {/* Favorites UI removed for single-session app */}
       </div>
 
       <div className="grid">
@@ -94,11 +91,6 @@ export default function Explore() {
             <div key={r.slug} className="card">
             <div className="card-title-row">
               <Link to={`/rudiment/${r.slug}`} className="card-title">{r.name}</Link>
-              <button
-                className={`icon-btn ${favorites[r.slug] ? 'on' : ''}`}
-                title={favorites[r.slug] ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                onClick={() => toggleFavorite(r.slug)}
-              >★</button>
             </div>
             <div className="rudiment-img-wrap">
               {r.image ? (
@@ -113,11 +105,6 @@ export default function Explore() {
             </div>
             <div className="card-desc">{r.description}</div>
             <div className="card-actions">
-              {progress[r.slug] ? (
-                <button className="chip done" onClick={() => unmark(r.slug)}>Completado ✓</button>
-              ) : (
-                <button className="chip" onClick={() => markCompleted(r.slug)}>Marcar completado</button>
-              )}
               <Link to={`/rudiment/${r.slug}`} className="chip link">Practicar →</Link>
             </div>
           </div>
