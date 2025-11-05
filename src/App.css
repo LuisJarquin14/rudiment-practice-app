@@ -21,6 +21,8 @@
   --element-bg: rgba(0,0,0,0.08);
   --thumb-bg: rgba(255,255,255,0.04);
   --focus-ring: rgba(102,217,255,0.18);
+  /* Heart icon color */
+  --heart-color: #ef4444; /* red-500 */
 }
 
 /* Light theme overrides when applied to the root element (html.theme-light) */
@@ -44,6 +46,7 @@
   --element-bg: rgba(255,255,255,0.06);
   --thumb-bg: rgba(2,6,23,0.04);
   --focus-ring: rgba(14,165,233,0.18);
+  --heart-color: #dc2626; /* slightly darker on light bg */
 }
 
 *{box-sizing:border-box}
@@ -91,6 +94,20 @@ a{color:inherit;text-decoration:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
 .card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);box-shadow:0 6px 18px var(--shadow);transition:transform .18s, box-shadow .18s}
 .card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(2,6,23,0.7)}
+.tips-page{padding:8px 0 36px}
+.tips-page .lead{color:var(--muted);margin-bottom:18px;font-size:15px}
+.tips-grid{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:18px;align-items:start}
+.tips-page .card{padding:18px;border-radius:14px;border:1px solid var(--border-2);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+.tips-page .card h2{margin-top:0;font-size:18px;color:var(--accent);font-weight:700}
+.tips-page ul, .tips-page ol{margin:8px 0 0 18px;color:var(--muted)}
+.tips-page li{margin-bottom:10px;line-height:1.6}
+.tips-page .card::before{content:"";display:block;height:6px;width:56px;background:var(--accent);border-radius:6px;margin-bottom:12px}
+.tips-page .card h2::before{display:none}
+
+@media (max-width: 900px) {
+  .tips-grid{grid-template-columns:1fr}
+}
+
 .card-title{font-weight:700;margin-bottom:8px;font-size:16px}
 .card-sub{color:var(--accent-2);font-weight:600;margin-bottom:8px}
 .card-desc{color:var(--muted);font-size:13px}
@@ -98,6 +115,11 @@ a{color:inherit;text-decoration:none}
 .icon-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 8px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s}
 .icon-btn:hover{background:var(--glass);border-color:var(--border-2);color:var(--text);transform:translateY(-2px)}
 .icon-btn.on{color:#ffd166;border-color:rgba(255,209,102,0.12);background:linear-gradient(180deg,rgba(255,209,102,0.03),transparent)}
+.icon-btn svg{width:18px;height:18px;display:block}
+
+/* Heart icon in footer */
+.heart-icon{width:20px;height:20px;display:inline-block;vertical-align:middle;margin:0 8px;color:var(--heart-color)}
+.theme-light .heart-icon{color:var(--heart-color)}
 .chip{background:transparent;color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:999px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s}
 .chip:hover{background:var(--glass);border-color:var(--border-2);color:var(--text);transform:translateY(-2px)}
 .chip.link{display:inline-block}
@@ -223,6 +245,79 @@ a{color:inherit;text-decoration:none}
 .bpm{display:inline-block;min-width:40px;text-align:center;background:transparent;border:1px solid var(--border-2);border-radius:8px;padding:4px 8px;margin-left:10px}
 .beat{width:14px;height:14px;border-radius:999px;background:var(--border)}
 .beat.accent{background:var(--accent);box-shadow:0 0 0 8px rgba(102,217,255,0.06);transition:box-shadow 100ms}
+
+/* Metronome enhanced layout */
+.metronome{display:flex;gap:18px;align-items:center}
+.panel-body.metronome{background:var(--card);padding:18px;border-radius:12px}
+.metronome-left{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+.bpm-display{font-size:44px;font-weight:800;color:var(--accent);background:transparent;padding:6px 12px;border-radius:8px}
+.bpm-controls{display:flex;gap:8px}
+.metronome-right{flex:1;display:flex;flex-direction:column;gap:10px}
+.controls-row{display:flex;align-items:center;gap:12px}
+.control-label{min-width:90px;color:var(--muted);font-weight:600}
+.actions-row{margin-top:6px}
+.icon-left{display:inline-flex;align-items:center;gap:8px}
+.btn-icon{width:16px;height:16px}
+.icon-btn svg{width:18px;height:18px}
+
+/* Large BPM & visual layout similar to provided design */
+.bpm-large{display:flex;align-items:baseline;gap:12px}
+.bpm-large .bpm-display{font-size:96px;font-weight:900;padding:0;color:var(--accent)}
+.bpm-large .bpm-unit{color:var(--accent);font-weight:700;margin-top:10px}
+.tempo-desc{color:var(--muted);font-size:13px;letter-spacing:1px}
+.slider-row{display:flex;align-items:center;gap:12px;width:100%;max-width:100%}
+.bpm-slider{flex:1}
+.round-btn{width:56px;height:56px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-size:20px}
+.round-btn:hover{background:var(--glass);transform:translateY(-2px)}
+.controls-big{display:flex;align-items:center;gap:18px;margin-top:8px}
+.tap-btn{min-width:140px;padding:18px 24px;border-radius:8px;background:var(--card);border:1px solid var(--border);font-weight:800;color:var(--accent);cursor:pointer}
+.tap-btn:hover{transform:translateY(-2px);background:var(--glass)}
+.play-circle{width:84px;height:84px;border-radius:999px;background:var(--text);display:flex;align-items:center;justify-content:center;border:0;box-shadow:0 8px 30px rgba(0,0,0,0.25);cursor:pointer}
+.play-circle .play-icon{width:36px;height:36px;color:var(--accent)}
+.first-beat{display:block;margin-top:10px;color:var(--muted);font-weight:700}
+.accent-dots{display:flex;gap:8px;margin-top:12px}
+.accent-dot{width:12px;height:12px;border-radius:999px;background:var(--border);display:inline-block}
+.accent-dot.active{background:var(--accent);transform:scale(1.35);width:14px;height:14px;box-shadow:0 0 0 10px rgba(102,217,255,0.10);transition:transform .08s, box-shadow .08s, background .08s}
+.accent-dot{width:12px;height:12px;border-radius:999px;background:var(--border);display:inline-block}
+.subdiv-tiles{display:flex;gap:8px}
+.tile{min-width:60px;height:60px;border-radius:8px;background:var(--element-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.tile.selected{background:var(--accent);color:#fff;border-color:transparent;box-shadow:0 8px 24px rgba(102,217,255,0.08)}
+.tile .tile-icon{width:36px;height:36px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.tile.selected .tile-icon{color:#fff}
+.tile .tile-label{font-size:12px;color:var(--muted);margin-top:4px}
+.bars-controls{display:flex;align-items:center;gap:8px;margin-left:12px}
+.accent-count{min-width:36px;text-align:center}
+
+@media (max-width:900px){
+  .bpm-large .bpm-display{font-size:56px}
+  .round-btn{width:44px;height:44px}
+  .play-circle{width:68px;height:68px}
+  .tap-btn{min-width:120px}
+}
+
+/* Mobile fixes to avoid horizontal overflow and keep the metronome inside margins */
+@media (max-width:480px) {
+  .panel-body.metronome{padding:12px}
+  .bpm-large .bpm-display{font-size:44px}
+  .bpm-large .bpm-unit{font-size:12px}
+  .slider-row{gap:8px}
+  .bpm-slider{min-width:0;flex:1}
+  .round-btn{width:40px;height:40px;font-size:18px;padding:0}
+  .play-circle{width:56px;height:56px}
+  .tap-btn{min-width:100px;padding:10px}
+  .controls-big{flex-wrap:wrap;justify-content:center}
+  .subdiv-tiles{flex-wrap:wrap;justify-content:center}
+  .tile{min-width:48px;height:48px;margin:6px}
+  .panel{overflow:hidden}
+  .metronome-left, .metronome-right{width:100%}
+  .accent-dots{justify-content:center}
+}
+
+@media (max-width:900px){
+  .metronome{flex-direction:column;align-items:stretch}
+  .metronome-left,.metronome-right{width:100%}
+  .bpm-display{font-size:36px}
+}
 
 .btn{background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);color:var(--text);border:1px solid var(--border);padding:10px 14px;border-radius:10px;cursor:pointer;transition:background-color .12s,color .12s,border-color .12s,transform .12s,box-shadow .12s}
 .btn:hover{transform:translateY(-2px);background:var(--glass);border-color:var(--border-2);box-shadow:0 10px 24px rgba(2,6,23,0.08)}

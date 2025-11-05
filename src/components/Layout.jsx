@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { HeartIcon } from '@heroicons/react/24/solid';
 
 export default function Layout() {
   const [theme, setTheme] = useState(() => {
@@ -31,15 +33,19 @@ export default function Layout() {
             <Link to="/" className="brand">Panamá Rudiments <span className="subtitle">Practice & refine</span></Link>
           </div>
           <nav className="nav">
-            <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>Explorar</NavLink>
-            <NavLink to="/favorites" className={({ isActive }) => isActive ? 'active' : ''}>Favoritos</NavLink>
+            <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>Rudimentos</NavLink>
+            <NavLink to="/tips" className={({ isActive }) => isActive ? 'active' : ''}>Consejos</NavLink>
             <button
               className={`icon-btn ${theme === 'light' ? 'on' : ''}`}
               onClick={toggleTheme}
               title="Cambiar tema"
               aria-label="Cambiar tema claro/oscuro"
             >
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? (
+                <MoonIcon aria-hidden="true" />
+              ) : (
+                <SunIcon aria-hidden="true" />
+              )}
             </button>
           </nav>
         </div>
@@ -48,7 +54,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <footer className="footer">
-        <div className="container">Hecho con ❤️ en Panamá</div>
+        <div className="container">Hecho con <HeartIcon className="heart-icon" aria-hidden="true" /> en Panamá</div>
       </footer>
     </div>
   );
