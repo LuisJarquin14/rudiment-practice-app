@@ -5,7 +5,7 @@ import { PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
 
 function useMetronome() {
   const [bpm, setBpm] = useState(70);
-  const [lastAccent, setLastAccent] = useState(false);
+  // lastAccent state removed: UI uses tickCount to compute active beat
   const [isPlaying, setIsPlaying] = useState(false);
   const audioCtxRef = useRef(null);
   const nextTickRef = useRef(0);
@@ -46,7 +46,6 @@ function useMetronome() {
     const delay = Math.max(0, (time - ctx.currentTime) * 1000);
     const to = setTimeout(() => {
       setTickCount((c) => c + 1);
-      setLastAccent(accent);
     }, delay);
     timeoutsRef.current.push(to);
   };
@@ -93,8 +92,7 @@ function useMetronome() {
     // reset counters so UI goes back to the first beat when stopped
     beatCounterRef.current = 0;
     barCounterRef.current = 0;
-    setTickCount(0);
-    setLastAccent(false);
+  setTickCount(0);
   };
 
   useEffect(() => {
