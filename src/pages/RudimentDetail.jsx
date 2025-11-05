@@ -129,6 +129,7 @@ function useMetronome() {
 export default function RudimentDetail() {
   const { slug } = useParams();
   const rudiment = useMemo(() => getRudimentBySlug(slug), [slug]);
+  const [loading, setLoading] = useState(() => !!(rudiment && rudiment.image));
   const { progress, mark } = useLocalProgress();
   const { bpm, setBpm, isPlaying, start, stop, accentEvery, setAccentEvery, tickCount, tap, subdiv, setSubdiv, countIn, setCountIn, autoRamp, setAutoRamp } = useMetronome();
 
@@ -151,12 +152,16 @@ export default function RudimentDetail() {
       <div className="tag">Nivel: {rudiment.level}</div>
       <p className="desc">{rudiment.description}</p>
 
-      <div className="rudiment-img-detail-wrap">
+      <div className="rudiment-img-detail-wrap" style={{position:'relative'}}>
+        {loading && <div className="skeleton-img" style={{maxWidth:420, height:260}}></div>}
         <img
           src={rudiment.image ? `/40-rudiments/${rudiment.image}` : ''}
           alt={rudiment.name}
           className="rudiment-img-detail"
           loading="lazy"
+          onLoad={() => setLoading(false)}
+          onError={() => setLoading(false)}
+          style={{display: loading ? 'none' : 'block'}}
         />
       </div>
 

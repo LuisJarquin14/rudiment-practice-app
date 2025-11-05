@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SkeletonCard from '../components/SkeletonCard';
 import { LEVELS, RUDIMENTS, CATEGORIES } from '../data/rudiments';
 import { useProgress } from '../hooks/useProgress';
 import { useFavorites } from '../hooks/useFavorites';
@@ -20,12 +21,27 @@ export default function Explore() {
     if (level) list = list.filter((r) => r.level === level);
 
     if (!q.trim()) return list;
-    const query = q.toLowerCase();
-    return list.filter((r) =>
-      r.name.toLowerCase().includes(query) ||
-      r.description.toLowerCase().includes(query)
-    );
+    // Normalize function removes diacritics and lowercases for more robust matching
+    const normalize = (s) => (s || '').toString().normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+    const query = normalize(q);
+    const tokens = query.split(/\s+/).filter(Boolean);
+
+    return list.filter((r) => {
+      // Build a searchable haystack including name, description, slug, category and sticking
+      const hay = [r.name, r.description, r.slug, r.category, r.sticking].map(normalize).join(' ');
+      // Require that every token is present (AND search). This helps when users type the full name
+      return tokens.every((t) => hay.includes(t));
+    });
   }, [level, q, category]);
+
+  // Loading state used to show skeletons briefly while filtering/searching
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    // show skeleton when query/filters change. debounce to avoid flicker
+    setLoading(true);
+    const t = setTimeout(() => setLoading(false), 260);
+    return () => clearTimeout(t);
+  }, [q, level, category]);
 
   const { progress, markCompleted, unmark } = useProgress();
   const { favorites, toggleFavorite } = useFavorites();
@@ -68,8 +84,14 @@ export default function Explore() {
       </div>
 
       <div className="grid">
-        {filtered.map((r) => (
-          <div key={r.slug} className="card">
+        {loading ? (
+          // show several skeleton cards while loading (use component for consistency)
+          Array.from({length:8}).map((_, i) => (
+            <SkeletonCard key={`sk-${i}`} />
+          ))
+        ) : (
+          filtered.map((r) => (
+            <div key={r.slug} className="card">
             <div className="card-title-row">
               <Link to={`/rudiment/${r.slug}`} className="card-title">{r.name}</Link>
               <button
@@ -99,7 +121,8 @@ export default function Explore() {
               <Link to={`/rudiment/${r.slug}`} className="chip link">Practicar →</Link>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
 
       <div className="panel" style={{marginTop: 24}}>
